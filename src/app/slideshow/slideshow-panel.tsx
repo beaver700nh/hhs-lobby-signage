@@ -4,7 +4,7 @@ const SLIDESHOW_URL = "https://docs.google.com/presentation/d/e/2PACX-1vROO4Y7tV
 
 export default function SlideshowPanel() {
   return (
-    <section className={`${styles.panel} basis-[fit-content] overflow-clip`}>
+    <section className={`${styles.panel} basis-[fit-content]`}>
       <iframe
         className="border-none h-[calc(100%+4px)] m-[-2px] aspect-[4/3]"
         allowFullScreen={true}
