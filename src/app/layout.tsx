@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Lato } from "next/font/google";
-
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
-
 import "./globals.css";
 
 const font = Lato({
