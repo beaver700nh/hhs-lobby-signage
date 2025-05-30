@@ -4,7 +4,7 @@ import SlideshowPanel from "./slideshow/slideshow-panel";
 export default function Home() {
   return (
     <>
-      <InfoPanel />
+      <InfoPanel date={new Date()} />
       <SlideshowPanel />
     </>
   );
