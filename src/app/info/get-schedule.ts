@@ -17,7 +17,9 @@ function isRelevantSchedule(component: ical.CalendarComponent, date: Date): comp
   return new Date(c.start.toISOString().replace(/Z$/, "")) >= date;
 }
 
-export async function getSchedule(refreshTime: Date) {
+export async function getSchedule(refreshTime?: Date) {
+  if (refreshTime == null) refreshTime = new Date("2024-09-30"); // TODO temporary
+
   util.log(console.info, `Querying schedule from database (t = ${refreshTime.toISOString()}) ...`);
 
   const schedulePromise = ical.async.fromURL(SCHEDULE_URL)
@@ -30,11 +32,13 @@ export async function getSchedule(refreshTime: Date) {
 
   schedulePromise.then(list => {
     const repr = JSON.stringify(
-      list.map(({ start, summary }) => ({ start, summary })),
+      list
+        .map(({ start, summary }) => ({ start, summary }))
+        .slice(0, 4),
       null, 2,
     );
     util.log(console.info, `Got ${list.length} schedule entries:\n${repr}`);
   });
 
-  return await schedulePromise;
+  return (await schedulePromise)[0];
 }

@@ -1,14 +1,16 @@
-import ical from "node-ical";
+"use client";
 
-export default async function BigLetter({
-  schedule,
-}: {
-  schedule: Promise<ical.VEvent[]>,
-}) {
-  const scheduleData = await schedule;
-  console.log(scheduleData);
+import { use, useContext } from "react";
+import { ScheduleContext } from "./schedule-context";
+
+export default function BigLetter() {
+  const scheduleData = use(useContext(ScheduleContext));
 
   return (
-    <p>{scheduleData.length} entries</p>
+    <>
+      <p>{scheduleData.summary}</p>
+      <p>{scheduleData.description}</p>
+      {/* <pre className="whitespace-normal">{JSON.stringify(scheduleData)}</pre> */}
+    </>
   );
 }

@@ -1,35 +1,20 @@
-"use client";
-
-import { Suspense, useState, useEffect } from "react";
+import { Suspense } from "react";
 import BigLetter from "./big-letter";
 import BigLetterLoading from "./big-letter-loading";
 import styles from "../styles.module.css";
-import { getSchedule } from "./get-schedule";
-import * as util from "../util";
+import ScheduleInjector from "./schedule-injector";
 
-const REFRESH_INTERVAL = 1000 * 60 * 15; // every 15 minutes
+import { getSchedule } from "./get-schedule";
 
 export default function InfoPanel() {
-  const [schedule, setSchedule] = useState<Promise<any>>();
-
-  useEffect(() => {
-    const interval = setInterval((function update() {
-      util.log(console.info, "Refreshing info panel on periodic interval.");
-
-      const refreshTime = new Date();
-      setSchedule(getSchedule(refreshTime));
-
-      return update;
-    })(), REFRESH_INTERVAL);
-
-    return () => clearInterval(interval);
-  }, []);
 
   return (
-    <section className={`${styles.panel} basis-0 grow`}>
-      <Suspense fallback={<BigLetterLoading />}>
-        <BigLetter schedule={schedule} />
-      </Suspense>
+    <section className={`${styles.panel} basis-0 min-w-0 grow`}>
+      <ScheduleInjector initial={getSchedule()}>
+        <Suspense fallback={<BigLetterLoading />}>
+          <BigLetter />
+        </Suspense>
+      </ScheduleInjector>
     </section>
   );
 }
