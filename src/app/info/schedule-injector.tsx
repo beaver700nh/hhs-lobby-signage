@@ -6,7 +6,7 @@ import { ScheduleContext } from "./schedule-context";
 import ical from "node-ical";
 import * as util from "../util";
 
-const REFRESH_INTERVAL = 1000 * 60 * 1/5; // every 15 minutes TODO temporarily small
+const REFRESH_INTERVAL = util.minToMs(1/5);
 
 export default function ScheduleInjector({
   children,
@@ -15,7 +15,7 @@ export default function ScheduleInjector({
   children: React.ReactNode;
   initial: Promise<any>;
 }>) {
-  const [schedule, setSchedule] = useState<Promise<ical.VEvent>>(initial);
+  const [schedule, setSchedule] = useState<Promise<ical.VEvent | null>>(initial);
 
   useEffect(() => {
     const interval = setInterval(() => {

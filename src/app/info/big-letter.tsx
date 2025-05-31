@@ -8,9 +8,8 @@ export default function BigLetter() {
 
   return (
     <>
-      <p>{scheduleData.summary}</p>
-      <p>{scheduleData.description}</p>
-      {/* <pre className="whitespace-normal">{JSON.stringify(scheduleData)}</pre> */}
+      <p>{scheduleData?.summary}</p>
+      <p>{scheduleData?.description}</p>
     </>
   );
 }

@@ -7,7 +7,6 @@ import ScheduleInjector from "./schedule-injector";
 import { getSchedule } from "./get-schedule";
 
 export default function InfoPanel() {
-
   return (
     <section className={`${styles.panel} basis-0 min-w-0 grow`}>
       <ScheduleInjector initial={getSchedule()}>

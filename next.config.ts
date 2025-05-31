@@ -1,10 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   experimental: {
     serverActions: {
       allowedOrigins: [
+        // workaround for server actions not working in Codespaces during development
         "localhost:3000"
       ]
     }
