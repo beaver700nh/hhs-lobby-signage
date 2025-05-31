@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from "react";
 import styles from "../styles.module.css";
-import { log } from "../util";
+import * as util from "../util";
+
+const REFRESH_INTERVAL = 1000 * 60 * 60; // every hour
 
 const SLIDESHOW_URL = "https://docs.google.com/presentation/d/e/2PACX-1vROO4Y7tVDDnf0iDH0U3CzeecQxCOctDw_MgXkCrpyKHVRqVSCz0lzpKlyL1LiA_LGWUEX7u585lF1A/embed";
 
@@ -11,9 +13,9 @@ export default function SlideshowPanel() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      log(console.info, "Refreshing slideshow in case of updated slides.");
+      util.log(console.info, "Refreshing slideshow on periodic interval.");
       setRefreshKey(x => x + 1);
-    }, 1000 * 3600);
+    }, REFRESH_INTERVAL);
 
     return () => clearInterval(interval);
   }, []);

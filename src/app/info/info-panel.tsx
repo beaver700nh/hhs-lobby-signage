@@ -1,33 +1,34 @@
-import ical from "node-ical";
-import styles from "../styles.module.css";
+"use client";
+
+import { Suspense, useState, useEffect } from "react";
 import BigLetter from "./big-letter";
-import { Suspense } from "react";
+import BigLetterLoading from "./big-letter-loading";
+import styles from "../styles.module.css";
+import { getSchedule } from "./get-schedule";
+import * as util from "../util";
 
-const SCHEDULE_CALID = "sulsp2f8e4npqtmdp469o8tmro@group.calendar.google.com";
-const SCHEDULE_URL = `https://calendar.google.com/calendar/ical/${SCHEDULE_CALID}/public/basic.ics`;
+const REFRESH_INTERVAL = 1000 * 60 * 15; // every 15 minutes
 
-export default function InfoPanel({
-  date,
-}: {
-  date: Date,
-}) {
-  function predicate(component: ical.CalendarComponent): component is ical.VEvent {
-    return component.type == "VEVENT"
-      && (component as ical.VEvent).start.getTime() >= date.getTime();
-  }
+export default function InfoPanel() {
+  const [schedule, setSchedule] = useState<Promise<any>>();
 
-  const schedulePromise = ical.async.fromURL(SCHEDULE_URL)
-    .then(schedule => {
-      return Object.entries(schedule)
-        .reverse()
-        .map(([, v]) => v)
-        .filter(predicate);
-    });
+  useEffect(() => {
+    const interval = setInterval((function update() {
+      util.log(console.info, "Refreshing info panel on periodic interval.");
+
+      const refreshTime = new Date();
+      setSchedule(getSchedule(refreshTime));
+
+      return update;
+    })(), REFRESH_INTERVAL);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <section className={`${styles.panel} basis-0 grow`}>
-      <Suspense fallback={<p>Loading...</p>}>
-        <BigLetter schedule={schedulePromise} />
+      <Suspense fallback={<BigLetterLoading />}>
+        <BigLetter schedule={schedule} />
       </Suspense>
     </section>
   );

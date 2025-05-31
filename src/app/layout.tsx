@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Lato } from "next/font/google";
-import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import "./globals.css";
 
 const font = Lato({
@@ -22,9 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${font.variable} antialiased flex flex-row content-stretch p-6 gap-4`}>
-        <AppRouterCacheProvider>
-          {children}
-        </AppRouterCacheProvider>
+        {children}
       </body>
     </html>
   );
