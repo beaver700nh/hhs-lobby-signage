@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import BellSchedule from "./bell-schedule/bell-schedule";
+import LunchMenu from "./lunch-menu/lunch-menu";
 import SlidePanel from "./slide-panel";
 
 const TAB_SWITCH_INTERVAL = 10000;
@@ -34,7 +35,9 @@ export default function InfoTabs() {
         in={index === 1}
         container={containerRef.current}
       >
-        <p>Slide 2</p>
+        <div>
+          <LunchMenu />
+        </div>
       </SlidePanel>
     </div>
   );

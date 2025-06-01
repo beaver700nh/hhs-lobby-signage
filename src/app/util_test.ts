@@ -2,7 +2,7 @@
  * EXERCISE CAUTION - THIS CODE WAS WRITTEN (MOSTLY) BY CHATGPT
  */
 
-import { calculateRelativeDate } from "./content";
+import { calculateRelativeDate } from "./util";
 
 const referenceSunday = new Date("2025-06-08T00:00:00");
 

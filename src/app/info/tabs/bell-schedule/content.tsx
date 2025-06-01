@@ -1,7 +1,7 @@
 "use client";
 
 import { use, useContext } from "react";
-import { ScheduleContext } from "../../schedule/schedule-context";
+import { ScheduleContext } from "../../context/schedule/schedule-context";
 import Typography from "@mui/material/Typography";
 import * as Regex from "../../regex";
 import * as util from "@/app/util";
@@ -60,7 +60,7 @@ export default function BellScheduleContent() {
   const scheduleData = use(useContext(ScheduleContext));
 
   return (
-    scheduleData == null
+    scheduleData == null || scheduleData.description == null
       ? <Typography>Bell schedule not found.</Typography>
       : (() => {
         const sanitized = decodePotentialHtml(scheduleData.description);

@@ -1,7 +1,7 @@
 "use server";
 
 import ical from "node-ical";
-import { SPECIAL_DAYS, VALID_DAYS } from "../regex";
+import { SPECIAL_DAYS, VALID_DAYS } from "../../regex";
 import * as util from "@/app/util";
 
 const SCHEDULE_CALID = "sulsp2f8e4npqtmdp469o8tmro@group.calendar.google.com";
@@ -24,9 +24,9 @@ function isRelevantSchedule(component: ical.CalendarComponent, date: Date): comp
 
 function calculateSortingWeight(event: ical.VEvent) {
   return (0
-    - 100 * new Date(event.start).getTime()
-    + (event.summary.match(VALID_DAYS)?.length ? 10 : 0)
-    + (event.summary.match(SPECIAL_DAYS)?.length ?? 0)
+    + 100 * new Date(event.start).getTime()
+    - (event.summary.match(VALID_DAYS)?.length ? 10 : 0)
+    - (event.summary.match(SPECIAL_DAYS)?.length ?? 0)
   );
 }
 
@@ -41,7 +41,7 @@ export async function getSchedule(refreshTime: Date, timezoneOffset: number) {
       return Object.entries(schedule)
         .map(([, v]) => v)
         .filter(x => isRelevantSchedule(x, refreshTimeAsUtc))
-        .sort((a, b) => calculateSortingWeight(b) - calculateSortingWeight(a));
+        .sort((a, b) => calculateSortingWeight(a) - calculateSortingWeight(b));
     });
 
   return await schedulePromise
@@ -54,6 +54,7 @@ export async function getSchedule(refreshTime: Date, timezoneOffset: number) {
       );
       util.log(console.info, `Debug: showing first 4 of ${list.length} schedule entries:\n${repr}`);
 
+      console.log("awefoijfoiwfjoiefjoifjoiwjaoifjeoifjofiweafoiweafjeofawiwefj LIST:", list[0]);
       return list[0] ?? null;
       // return null;
     })

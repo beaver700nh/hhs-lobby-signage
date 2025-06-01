@@ -1,7 +1,7 @@
 "use client";
 
 import { use, useContext } from "react";
-import { ScheduleContext } from "../../schedule/schedule-context";
+import { ScheduleContext } from "../../context/schedule/schedule-context";
 import * as Regex from "../../regex";
 import ical from "node-ical";
 
