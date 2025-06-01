@@ -8,7 +8,7 @@ const SCHEDULE_CALID = "sulsp2f8e4npqtmdp469o8tmro@group.calendar.google.com";
 const SCHEDULE_URL = `https://calendar.google.com/calendar/ical/${SCHEDULE_CALID}/public/basic.ics`;
 
 const LOOKAHEAD_TIME = util.dayToMs(14);
-const ROLLOVER_TIME = util.minToMs(14 * 60);
+const ROLLOVER_TIME = util.minToMs(16 * 60);
 
 function isRelevantSchedule(component: ical.CalendarComponent, date: Date): component is ical.VEvent {
   if (component.type !== "VEVENT") return false;
@@ -19,9 +19,7 @@ function isRelevantSchedule(component: ical.CalendarComponent, date: Date): comp
   // two weeks should cover the length of all vacations except summer
   const later = date.getTime() + LOOKAHEAD_TIME;
 
-  console.log(date, new Date(t), `\n\t${date.getTime()}\n\t${t}`);
-
-  return date.getTime() <= t && t <= later;
+  return date.getTime() < t && t <= later;
 }
 
 function calculateSortingWeight(event: ical.VEvent) {

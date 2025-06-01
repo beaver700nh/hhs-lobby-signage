@@ -19,7 +19,7 @@ export default function ScheduleInjector({
     const interval = setInterval((function update() {
       util.log(console.info, "Refreshing info panel on periodic interval.");
 
-      const refreshTime = new Date("2025-06-02T00:00:00.000");
+      const refreshTime = new Date("2025-05-30T16:00:00.000");
       setSchedule(getSchedule(refreshTime, refreshTime.getTimezoneOffset()));
 
       return update;
