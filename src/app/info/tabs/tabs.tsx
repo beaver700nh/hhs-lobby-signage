@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import BellSchedule from "./bell-schedule/bell-schedule";
 import SlidePanel from "./slide-panel";
 
 export default function InfoTabs() {
@@ -22,7 +23,7 @@ export default function InfoTabs() {
         in={index === 0}
         container={containerRef.current}
       >
-        <p>Slide 1</p>
+        <BellSchedule />
       </SlidePanel>
       <SlidePanel
         direction="left"
