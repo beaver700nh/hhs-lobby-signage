@@ -23,8 +23,6 @@ export default function BigLetterContent() {
   const scheduleData = use(useContext(ScheduleContext));
   const parsed = parseLetter(scheduleData);
 
-  console.log("special", parsed);
-
   return (
     <svg viewBox="0 0 14 14">
       <text

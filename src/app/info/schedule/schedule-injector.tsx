@@ -18,7 +18,9 @@ export default function ScheduleInjector({
   useEffect(() => {
     const interval = setInterval((function update() {
       util.log(console.info, "Refreshing info panel on periodic interval.");
-      setSchedule(getSchedule());
+
+      const refreshTime = new Date("2025-06-02T00:00:00.000");
+      setSchedule(getSchedule(refreshTime, refreshTime.getTimezoneOffset()));
 
       return update;
     })(), REFRESH_INTERVAL);

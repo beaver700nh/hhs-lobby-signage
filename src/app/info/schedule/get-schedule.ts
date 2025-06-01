@@ -8,39 +8,41 @@ const SCHEDULE_CALID = "sulsp2f8e4npqtmdp469o8tmro@group.calendar.google.com";
 const SCHEDULE_URL = `https://calendar.google.com/calendar/ical/${SCHEDULE_CALID}/public/basic.ics`;
 
 const LOOKAHEAD_TIME = util.dayToMs(14);
+const ROLLOVER_TIME = util.minToMs(14 * 60);
 
 function isRelevantSchedule(component: ical.CalendarComponent, date: Date): component is ical.VEvent {
   if (component.type !== "VEVENT") return false;
 
-  const t = util.reinterpretAsLocal(component.start);
+  // shift time to later so it doesn't roll over immediately
+  const t = component.start.getTime() + ROLLOVER_TIME;
 
   // two weeks should cover the length of all vacations except summer
-  const later = new Date(date.getTime() + LOOKAHEAD_TIME);
+  const later = date.getTime() + LOOKAHEAD_TIME;
 
-  return date <= t && t <= later;
+  console.log(date, new Date(t), `\n\t${date.getTime()}\n\t${t}`);
+
+  return date.getTime() <= t && t <= later;
 }
 
 function calculateSortingWeight(event: ical.VEvent) {
-  const foo = (0
+  return (0
     - 100 * new Date(event.start).getTime()
     + (event.summary.match(VALID_DAYS)?.length ? 10 : 0)
     + (event.summary.match(SPECIAL_DAYS)?.length ?? 0)
   );
-
-  console.log("event", event.start.toISOString(), event.summary, "=", foo);
-  return foo;
 }
 
-export async function getSchedule(refreshTime?: Date) {
-  if (refreshTime == null) refreshTime = new Date();
-
+export async function getSchedule(refreshTime: Date, timezoneOffset: number) {
   util.log(console.info, `Querying schedule from database (t = ${refreshTime.toISOString()}) ...`);
+
+  // normalizes e.g. 4pm local to 4pm UTC, in order to be compatible with database which is in UTC
+  const refreshTimeAsUtc = new Date(refreshTime.getTime() - util.minToMs(timezoneOffset));
 
   const schedulePromise = ical.async.fromURL(SCHEDULE_URL)
     .then(schedule => {
       return Object.entries(schedule)
         .map(([, v]) => v)
-        .filter(x => isRelevantSchedule(x, refreshTime))
+        .filter(x => isRelevantSchedule(x, refreshTimeAsUtc))
         .sort((a, b) => calculateSortingWeight(b) - calculateSortingWeight(a));
     });
 

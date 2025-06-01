@@ -23,7 +23,9 @@ export default function InfoTabs() {
         in={index === 0}
         container={containerRef.current}
       >
-        <BellSchedule />
+        <div>
+          <BellSchedule />
+        </div>
       </SlidePanel>
       <SlidePanel
         direction="left"

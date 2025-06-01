@@ -4,7 +4,7 @@ export default function SlidePanel({
   children,
   ...props
 }: Readonly<{
-  children: React.ReactElement;
+  children: React.ReactNode;
 }> & SlideProps) {
   return (
     <Slide

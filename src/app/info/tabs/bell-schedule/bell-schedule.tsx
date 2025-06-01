@@ -9,5 +9,5 @@ export default function BellSchedule() {
         <BellScheduleContent />
       </Suspense>
     </div>
-  )
+  );
 }
