@@ -1,22 +1,20 @@
 "use client";
 
 import { use, useContext } from "react";
+import Typography from "@mui/material/Typography";
 import { ScheduleContext } from "../schedule-context";
 import * as util from "@/app/util";
 
-// import { test_calculateRelativeDate } from "./title-test";
+// import { test_calculateRelativeDate } from "./test";
 // test_calculateRelativeDate();
 
 const DATE_FORMAT = {
-  weekday: "long",
-  month: "long",
+  month: "short",
   day: "numeric",
   year: "numeric",
 } satisfies Intl.DateTimeFormatOptions;
 
 export function calculateRelativeDate(date: Date, _now?: Date) {
-  date = util.reinterpretAsLocal(date);
-
   // disregard time info and only consider date
   const now = util.toMidnight(_now ?? new Date());
   const then = util.toMidnight(date);
@@ -102,8 +100,12 @@ export default function TitleContent() {
 
   return (
     <>
-      <p>{absolute?.toLocaleDateString(undefined, DATE_FORMAT) ?? "No schedule for today." }</p>
-      <p>{relative}</p>
+      <Typography variant="h4">
+        {absolute?.toLocaleDateString(undefined, DATE_FORMAT) ?? "No schedule for today."}
+      </Typography>
+      <Typography variant="h4" className="capitalize">
+        {relative}
+      </Typography>
     </>
   );
 }

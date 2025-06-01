@@ -2,22 +2,20 @@
 
 import { use, useContext } from "react";
 import { ScheduleContext } from "../schedule-context";
+import { VALID_DAYS, SPECIAL_DAYS } from "./regex";
 import ical from "node-ical";
 
-const VALID_DAYS = new Set(["A", "B", "C", "D"]);
-const SPECIAL_DAYS = /\*|special|exam|transition|last|half|1\/2/i;
-
 function parseLetter(schedule: ical.VEvent | null) {
-  const candidate = schedule?.summary.trim().charAt(0);
-  
-  return candidate && VALID_DAYS.has(candidate)
+  const candidate = schedule?.summary.match(VALID_DAYS)?.[1];
+
+  return candidate == null
     ? {
-      letter: candidate,
-      special: SPECIAL_DAYS.test(schedule!.summary),
-    }
-    : {
       letter: null,
       special: true,
+    }
+    : {
+      letter: candidate,
+      special: !!schedule!.summary.match(SPECIAL_DAYS),
     };
 }
 
@@ -25,10 +23,30 @@ export default function BigLetterContent() {
   const scheduleData = use(useContext(ScheduleContext));
   const parsed = parseLetter(scheduleData);
 
+  console.log("special", parsed);
+
   return (
-    <p>
-      {parsed.letter ?? <>&#x1f6a7;</>}
-      {parsed.special && <>&#x2005;</>}
-    </p>
+    <svg viewBox="0 0 14 14">
+      <text
+        x="50%" y="50%"
+        textAnchor="middle"
+        dominantBaseline="central"
+        fontSize="100%"
+        fill="currentColor"
+        className="font-black text-(--fg-accent1)"
+      >
+        {parsed.letter ?? "?"}
+      </text>
+      <text
+        x="100%" y="0%"
+        textAnchor="end"
+        dominantBaseline="hanging"
+        fontSize="50%"
+        fill="currentColor"
+        className="text-(--fg-accent2)"
+      >
+        {parsed.special && <>&#x2605;</>}
+      </text>
+    </svg>
   );
 }

@@ -6,7 +6,7 @@ import styles from "@/app/styles.module.css";
 export default function InfoPanel() {
   return (
     <section className={`${styles.panel} basis-0 min-w-0 grow`}>
-      <ScheduleInjector initial={getSchedule()}>
+      <ScheduleInjector>
         <InfoHeader />
       </ScheduleInjector>
     </section>

@@ -1,12 +1,9 @@
 import type { Metadata } from "next";
-import { Lato } from "next/font/google";
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
+import { ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import theme from "./theme";
 import "./globals.css";
-
-const font = Lato({
-  variable: "--font-main",
-  weight: "400",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "HHS Lobby Signage",
@@ -20,8 +17,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${font.variable} antialiased`}>
-        {children}
+      <body>
+        <AppRouterCacheProvider>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          {children}
+        </ThemeProvider>
+        </AppRouterCacheProvider>
       </body>
     </html>
   );

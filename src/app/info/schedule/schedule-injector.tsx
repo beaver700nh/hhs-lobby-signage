@@ -10,18 +10,18 @@ const REFRESH_INTERVAL = util.minToMs(1/6);
 
 export default function ScheduleInjector({
   children,
-  initial,
 }: Readonly<{
   children: React.ReactNode;
-  initial: Promise<any>;
 }>) {
-  const [schedule, setSchedule] = useState<Promise<ical.VEvent | null>>(initial);
+  const [schedule, setSchedule] = useState<Promise<ical.VEvent | null>>(new Promise(() => {}));
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    const interval = setInterval((function update() {
       util.log(console.info, "Refreshing info panel on periodic interval.");
       setSchedule(getSchedule());
-    }, REFRESH_INTERVAL);
+
+      return update;
+    })(), REFRESH_INTERVAL);
 
     return () => clearInterval(interval);
   }, []);

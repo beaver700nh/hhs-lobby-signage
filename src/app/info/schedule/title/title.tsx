@@ -4,7 +4,7 @@ import TitleContent from "./content";
 
 export default function Title() {
   return (
-    <div className="h-full flex flex-col justify-between gap-2 *:basis-0 *:grow">
+    <div className="h-full flex flex-col justify-center gap-2 *:empty:hidden">
       <Suspense fallback={<TitleLoading />}>
         <TitleContent />
       </Suspense>

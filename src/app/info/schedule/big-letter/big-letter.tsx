@@ -4,7 +4,7 @@ import BigLetterContent from "./content";
 
 export default function BigLetter() {
   return (
-    <div className="aspect-square">
+    <div className="h-full aspect-square flex flex-row justify-center items-center">
       <Suspense fallback={<BigLetterLoading />}>
         <BigLetterContent />
       </Suspense>

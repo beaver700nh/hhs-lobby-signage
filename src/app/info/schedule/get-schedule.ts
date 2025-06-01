@@ -1,7 +1,7 @@
 "use server";
 
 import ical from "node-ical";
-
+import { SPECIAL_DAYS, VALID_DAYS } from "./big-letter/regex";
 import * as util from "@/app/util";
 
 const SCHEDULE_CALID = "sulsp2f8e4npqtmdp469o8tmro@group.calendar.google.com";
@@ -20,6 +20,17 @@ function isRelevantSchedule(component: ical.CalendarComponent, date: Date): comp
   return date <= t && t <= later;
 }
 
+function calculateSortingWeight(event: ical.VEvent) {
+  const foo = (0
+    - 100 * new Date(event.start).getTime()
+    + (event.summary.match(VALID_DAYS)?.length ? 10 : 0)
+    + (event.summary.match(SPECIAL_DAYS)?.length ?? 0)
+  );
+
+  console.log("event", event.start.toISOString(), event.summary, "=", foo);
+  return foo;
+}
+
 export async function getSchedule(refreshTime?: Date) {
   if (refreshTime == null) refreshTime = new Date();
 
@@ -30,7 +41,7 @@ export async function getSchedule(refreshTime?: Date) {
       return Object.entries(schedule)
         .map(([, v]) => v)
         .filter(x => isRelevantSchedule(x, refreshTime))
-        .sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
+        .sort((a, b) => calculateSortingWeight(b) - calculateSortingWeight(a));
     });
 
   return await schedulePromise
