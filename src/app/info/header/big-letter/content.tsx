@@ -1,7 +1,7 @@
 "use client";
 
 import { use, useContext } from "react";
-import { ScheduleContext } from "../schedule-context";
+import { ScheduleContext } from "../../schedule/schedule-context";
 import { VALID_DAYS, SPECIAL_DAYS } from "./regex";
 import ical from "node-ical";
 

@@ -2,7 +2,7 @@
 
 import { use, useContext } from "react";
 import Typography from "@mui/material/Typography";
-import { ScheduleContext } from "../schedule-context";
+import { ScheduleContext } from "../../schedule/schedule-context";
 import * as util from "@/app/util";
 
 // import { test_calculateRelativeDate } from "./test";

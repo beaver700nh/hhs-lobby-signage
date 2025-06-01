@@ -4,7 +4,7 @@ import styles from "@/app/styles.module.css";
 
 export default function InfoHeader() {
   return (
-    <div className="h-[20vh] flex flex-row p-4 gap-2">
+    <div className="basis-[17vh] flex flex-row px-4 gap-2">
       <div>
         <BigLetter />
       </div>
