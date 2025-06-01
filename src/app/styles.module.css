@@ -15,3 +15,29 @@
   box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 75%);
   background-color: var(--bg-plain);
 }
+
+.bellScheduleEntry {
+  text-align: center;
+
+  &:not(:last-child) > * {
+    padding-block-end: var(--spacing);
+  }
+
+  & > :first-child {
+    text-align: end;
+    padding-inline-end: 1em;
+    border-inline-end: 2px solid var(--fg-accent1);
+  }
+
+  & > :last-child {
+    text-align: start;
+    padding-inline-start: 1em;
+  }
+
+  &[data-islunch] > :last-child {
+    padding-inline-start: 2em;
+    font-weight: normal;
+    font-style: italic;
+    text-transform: capitalize;
+  }
+}

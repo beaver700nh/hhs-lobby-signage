@@ -4,7 +4,7 @@ import BellScheduleContent from "./content";
 
 export default function BellSchedule() {
   return (
-    <div>
+    <div className="flex flex-col items-center gap-1">
       <Suspense fallback={<BellScheduleLoading />}>
         <BellScheduleContent />
       </Suspense>

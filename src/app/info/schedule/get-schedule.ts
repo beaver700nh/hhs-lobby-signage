@@ -55,6 +55,7 @@ export async function getSchedule(refreshTime: Date, timezoneOffset: number) {
       util.log(console.info, `Debug: showing first 4 of ${list.length} schedule entries:\n${repr}`);
 
       return list[0] ?? null;
+      // return null;
     })
     .catch(error => {
       util.log(console.error, `Failed to get schedule! Message: ${error}`);

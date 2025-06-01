@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import BellSchedule from "./bell-schedule/bell-schedule";
 import SlidePanel from "./slide-panel";
 
+const TAB_SWITCH_INTERVAL = 10000;
+
 export default function InfoTabs() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [index, setIndex] = useState(0);
@@ -11,13 +13,13 @@ export default function InfoTabs() {
   useEffect(() => {
     const interval = setInterval(() => {
       setIndex(x => (x + 1) % 2);
-    }, 3000);
+    }, TAB_SWITCH_INTERVAL);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [TAB_SWITCH_INTERVAL]);
 
   return (
-    <div className="relative grow *:w-full *:h-full *:border-2" ref={containerRef}>
+    <div className="relative grow *:w-full *:h-full *:px-2" ref={containerRef}>
       <SlidePanel
         direction="right"
         in={index === 0}
