@@ -20,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${font.variable} antialiased flex flex-row content-stretch p-6 gap-4`}>
+      <body className={`${font.variable} antialiased`}>
         {children}
       </body>
     </html>

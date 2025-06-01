@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import styles from "../styles.module.css";
-import * as util from "../util";
+import styles from "@/app/styles.module.css";
+import * as util from "@/app/util";
 
 const REFRESH_INTERVAL = util.minToMs(60);
 

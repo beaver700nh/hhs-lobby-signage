@@ -2,7 +2,7 @@
 
 import ical from "node-ical";
 
-import * as util from "../util";
+import * as util from "@/app/util";
 
 const SCHEDULE_CALID = "sulsp2f8e4npqtmdp469o8tmro@group.calendar.google.com";
 const SCHEDULE_URL = `https://calendar.google.com/calendar/ical/${SCHEDULE_CALID}/public/basic.ics`;
@@ -12,8 +12,7 @@ const LOOKAHEAD_TIME = util.dayToMs(14);
 function isRelevantSchedule(component: ical.CalendarComponent, date: Date): component is ical.VEvent {
   if (component.type !== "VEVENT") return false;
 
-  // reinterpret event start time as local tz
-  const t = new Date(component.start.toISOString().replace(/Z$/, ""));
+  const t = util.reinterpretAsLocal(component.start);
 
   // two weeks should cover the length of all vacations except summer
   const later = new Date(date.getTime() + LOOKAHEAD_TIME);
@@ -22,7 +21,7 @@ function isRelevantSchedule(component: ical.CalendarComponent, date: Date): comp
 }
 
 export async function getSchedule(refreshTime?: Date) {
-  if (refreshTime == null) refreshTime = new Date("2025-09-30"); // TODO temporary
+  if (refreshTime == null) refreshTime = new Date();
 
   util.log(console.info, `Querying schedule from database (t = ${refreshTime.toISOString()}) ...`);
 
@@ -44,7 +43,7 @@ export async function getSchedule(refreshTime?: Date) {
       );
       util.log(console.info, `Debug: showing first 4 of ${list.length} schedule entries:\n${repr}`);
 
-      return list[0];
+      return list[0] ?? null;
     })
     .catch(error => {
       util.log(console.error, `Failed to get schedule! Message: ${error}`);

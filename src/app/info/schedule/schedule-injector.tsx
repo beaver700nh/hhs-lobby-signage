@@ -4,9 +4,9 @@ import { useState, useEffect } from "react";
 import { getSchedule } from "./get-schedule";
 import { ScheduleContext } from "./schedule-context";
 import ical from "node-ical";
-import * as util from "../util";
+import * as util from "@/app/util";
 
-const REFRESH_INTERVAL = util.minToMs(1/5);
+const REFRESH_INTERVAL = util.minToMs(1/6);
 
 export default function ScheduleInjector({
   children,
