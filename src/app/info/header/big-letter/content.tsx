@@ -2,11 +2,11 @@
 
 import { use, useContext } from "react";
 import { ScheduleContext } from "../../schedule/schedule-context";
-import { VALID_DAYS, SPECIAL_DAYS } from "./regex";
+import * as Regex from "../../regex";
 import ical from "node-ical";
 
 function parseLetter(schedule: ical.VEvent | null) {
-  const candidate = schedule?.summary.match(VALID_DAYS)?.[1];
+  const candidate = schedule?.summary.match(Regex.VALID_DAYS)?.[1];
 
   return candidate == null
     ? {
@@ -15,7 +15,7 @@ function parseLetter(schedule: ical.VEvent | null) {
     }
     : {
       letter: candidate,
-      special: !!schedule!.summary.match(SPECIAL_DAYS),
+      special: !!schedule!.summary.match(Regex.SPECIAL_DAYS),
     };
 }
 

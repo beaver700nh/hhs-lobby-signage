@@ -3,67 +3,12 @@
 import { use, useContext } from "react";
 import { ScheduleContext } from "../../schedule/schedule-context";
 import Typography from "@mui/material/Typography";
+import * as Regex from "../../regex";
 import * as util from "@/app/util";
 import styles from "@/app/styles.module.css";
 
-/*
- * Regex to detect HTML tags in schedule.description
- * See https://regex101.com/r/WUMMda/1
- */
-const SUSPECTED_HTML_REGEX = /<([^>]+)>.*?<\/\1>|<([^>]+)\/>/g;
-
-/*
- * Regex to extract class times and names from schedule.description
- * /^\s*(\d?\d(?::?\d{2})?(?:\s*[ap]m)?)\s*-\s*(\d?\d(?::?\d{2})?(?:\s*[ap]m)?)[\s:]*(.*?)\s*$|^\s*(.*?)[\s:]*(\d?\d(?::?\d{2})?(?:\s*[ap]m)?)\s*-\s*(\d?\d(?::?\d{2})?(?:\s*[ap]m)?)\s*$/gmi
- *
- * >> Regex analyzer: https://regex101.com/r/hd7rpO/1 <<
- *
- * Two different cases
- * ===================
- * ^\s*{Time matcher}[\s:]*(.*?)\s*$  -- Time: Class
- * |                                  -- ... or ...
- * ^\s*(.*?)[\s:]*{Time matcher}\s*$  -- Class: Time
- *
- * Time matcher
- * ============
- * {Clock time}\s*-\s*{Clock time}  -- XX:XX - XX:XX
- *                                  -- two clock times separated by a dash
- *                                  -- and maybe whitespace around the dash
- *
- * Clock time
- * ==========
- * (
- *   \d?\d      -- hour (can be single-digit)
- *   (?:
- *     :?       -- colon is optional
- *     \d{2}    -- minute (always two digits)
- *   )?         -- minute is optional
- *   (?:
- *     \s*      -- whitespace is optional
- *     [ap]m    -- AM or PM
- *   )?
- * )
- *
- * Flags
- * =====
- * g  -- global (find all matches)
- * m  -- handle multiline
- * i  -- case-insensitive
- */
-const BELL_SCHEDULE_REGEX = (() => {
-  const clockTime   = String.raw`(\d?\d(?::?\d{2})?(?:\s*[ap]m)?)`;
-  const timeMatcher = String.raw`${clockTime}\s*-\s*${clockTime}`;
-  const timeBefore  = String.raw`^\s*${timeMatcher}[\s:]*(.*?)\s*$`;
-  const timeAfter   = String.raw`^\s*(.*?)[\s:]*${timeMatcher}\s*$`;
-  const regex = String.raw`${timeBefore}|${timeAfter}`;
-
-  return new RegExp(regex, "gmi");
-})();
-
-const LUNCH_BLOCK_REGEX = /lunch/i;
-
 function decodePotentialHtml(description: string) {
-  const matches = [...description.matchAll(SUSPECTED_HTML_REGEX)];
+  const matches = [...description.matchAll(Regex.SUSPECTED_HTML)];
 
   if (matches.length === 0) {
     return description;
@@ -83,7 +28,7 @@ function decodePotentialHtml(description: string) {
 }
 
 function parseBellScheduleToTable(description: string) {
-  const matches = [...description.matchAll(BELL_SCHEDULE_REGEX)];
+  const matches = [...description.matchAll(Regex.BELL_SCHEDULE)];
 
   if (matches.length === 0) {
     throw new Error("Bell schedule format could not be parsed.");
@@ -130,7 +75,7 @@ export default function BellScheduleContent() {
                   <tr
                     key={index}
                     className={`${styles.bellScheduleEntry}`}
-                    data-islunch={entry.name.match(LUNCH_BLOCK_REGEX)}
+                    data-islunch={entry.name.match(Regex.LUNCH_BLOCK)}
                   >
                     <Typography component="td">{entry.start} &ndash; {entry.end}</Typography>
                     <Typography component="td">{entry.name}</Typography>

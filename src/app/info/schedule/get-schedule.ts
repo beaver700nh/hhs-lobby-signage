@@ -1,7 +1,7 @@
 "use server";
 
 import ical from "node-ical";
-import { SPECIAL_DAYS, VALID_DAYS } from "../header/big-letter/regex";
+import { SPECIAL_DAYS, VALID_DAYS } from "../regex";
 import * as util from "@/app/util";
 
 const SCHEDULE_CALID = "sulsp2f8e4npqtmdp469o8tmro@group.calendar.google.com";
