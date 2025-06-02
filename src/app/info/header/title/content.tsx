@@ -2,7 +2,7 @@
 
 import { use, useContext } from "react";
 import Typography from "@mui/material/Typography";
-import { ScheduleContext } from "../../context/schedule/schedule-context";
+import { Contexts } from "../../calendars/contexts";
 import * as util from "@/app/util";
 
 const DATE_FORMAT = {
@@ -12,7 +12,7 @@ const DATE_FORMAT = {
 } satisfies Intl.DateTimeFormatOptions;
 
 export default function TitleContent() {
-  const scheduleData = use(useContext(ScheduleContext));
+  const scheduleData = use(useContext(Contexts.get("schedule")!));
   const absolute = scheduleData && util.reinterpretAsLocal(scheduleData.start);
   const relative = absolute && util.calculateRelativeDate(absolute);
 

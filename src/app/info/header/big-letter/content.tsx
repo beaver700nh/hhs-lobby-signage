@@ -1,7 +1,7 @@
 "use client";
 
 import { use, useContext } from "react";
-import { ScheduleContext } from "../../context/schedule/schedule-context";
+import { Contexts } from "../../calendars/contexts";
 import * as Regex from "../../regex";
 import ical from "node-ical";
 
@@ -20,7 +20,7 @@ function parseLetter(schedule: ical.VEvent | null) {
 }
 
 export default function BigLetterContent() {
-  const scheduleData = use(useContext(ScheduleContext));
+  const scheduleData = use(useContext(Contexts.get("schedule")!));
   const parsed = parseLetter(scheduleData);
 
   return (

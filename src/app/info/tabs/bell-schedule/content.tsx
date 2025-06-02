@@ -1,7 +1,7 @@
 "use client";
 
 import { use, useContext } from "react";
-import { ScheduleContext } from "../../context/schedule/schedule-context";
+import { Contexts } from "../../calendars/contexts";
 import Typography from "@mui/material/Typography";
 import * as Regex from "../../regex";
 import * as util from "@/app/util";
@@ -57,7 +57,7 @@ function parseBellScheduleToText(description: string) {
 }
 
 export default function BellScheduleContent() {
-  const scheduleData = use(useContext(ScheduleContext));
+  const scheduleData = use(useContext(Contexts.get("schedule")!));
 
   return (
     scheduleData == null || scheduleData.description == null

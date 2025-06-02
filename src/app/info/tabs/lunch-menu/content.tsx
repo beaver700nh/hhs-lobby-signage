@@ -1,8 +1,8 @@
 import { use, useContext } from "react";
-import { LunchMenuContext } from "../../context/lunch-menu/lunch-menu-context";
+import { Contexts } from "../../calendars/contexts";
 
 export default function LunchMenuContent() {
-  const lunchMenuData = use(useContext(LunchMenuContext));
+  const lunchMenuData = use(useContext(Contexts.get("lunchMenu")!));
 
   return (
     <p>Hi, {lunchMenuData?.summary ?? "error"}</p>

@@ -1,4 +1,4 @@
-import Context from "./context/context-injector";
+import Context from "./calendars/context-injector";
 import InfoHeader from "./header/header";
 import InfoTabs from "./tabs/tabs";
 import styles from "@/app/styles.module.css";
