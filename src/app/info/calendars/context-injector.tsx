@@ -6,10 +6,10 @@ import { ContextType, Contexts } from "./contexts";
 import { fetchCalendar } from "./fetch";
 import * as util from "@/app/util";
 
-const REFRESH_INTERVAL = util.minToMs(1/12);
+const REFRESH_INTERVAL = util.minToMs(15);
 
-const DEBUG_OVERRIDE_TIME = new Date("2024-10-02T15:00:00.000");
-// const DEBUG_OVERRIDE_TIME = null;
+// const DEBUG_OVERRIDE_TIME = new Date("2024-09-30T15:00:00.000");
+const DEBUG_OVERRIDE_TIME = null;
 
 export default function ContextInjector({
   children,
@@ -17,8 +17,8 @@ export default function ContextInjector({
   children: React.ReactNode;
 }>) {
   const states = new Map(Calendars.map(
-    calendar => [
-      calendar.name,
+    ({ name }) => [
+      name,
       (() => {
         const [get, set] = useState<ContextType>(new Promise(() => {}));
         return { get, set };
@@ -44,9 +44,9 @@ export default function ContextInjector({
   }, [REFRESH_INTERVAL, DEBUG_OVERRIDE_TIME]);
 
   return (
-    Calendars.reduceRight((acc, calendar) => {
-      const Context = Contexts.get(calendar.name)!;
-      const state = states.get(calendar.name)!;
+    Calendars.reduceRight((acc, { name }) => {
+      const Context = Contexts.get(name)!;
+      const state = states.get(name)!;
 
       return (
         <Context value={state.get}>

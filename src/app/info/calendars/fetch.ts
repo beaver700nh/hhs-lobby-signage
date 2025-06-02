@@ -25,20 +25,21 @@ export type RefreshTimeInfo = {
 };
 
 const calendarFetchers = new Map(Calendars.map(
-  calendar => [
-    calendar.name,
+  ({ name, calendarId, exclude, weightingFunction }) => [
+    name,
     async ({ refreshTime, tzOffset }: RefreshTimeInfo) => {
-      util.log(console.info, `Querying "${calendar.name}" calendar at t = ${refreshTime.toISOString()} ...`);
+      util.log(console.info, `Querying "${name}" calendar at t = ${refreshTime.toISOString()} ...`);
 
       // normalize X time local tz to same X time UTC to allow calculations purely in UTC, since calendar events seem to be in UTC
       const refreshTimeAsUtc = new Date(refreshTime.getTime() - util.minToMs(tzOffset));
 
-      const calendarUrl = `https://calendar.google.com/calendar/ical/${calendar.calendarId}/public/basic.ics`;
+      const calendarUrl = `https://calendar.google.com/calendar/ical/${calendarId}/public/basic.ics`;
       return await ical.async.fromURL(calendarUrl)
         .then(schedule => Object.entries(schedule)
           .map(([, component]) => component)
           .filter(component => isRelevantEvent(component, refreshTimeAsUtc))
-          .sort((a, b) => calendar.weightingFunction(a) - calendar.weightingFunction(b))
+          .filter(component => !exclude(component))
+          .sort((a, b) => weightingFunction(a) - weightingFunction(b))
         )
         .then(list => {
           const repr = JSON.stringify(
@@ -47,13 +48,13 @@ const calendarFetchers = new Map(Calendars.map(
               .slice(0, 4),
             null, 2,
           );
-          util.log(console.info, `Debug: Showing first 4 of ${list.length} entries for "${calendar.name}":\n${repr}`);
+          util.log(console.info, `Debug: Showing first 4 of ${list.length} entries for "${name}":\n${repr}`);
 
           return list[0] ?? null;
           // return null;
         })
         .catch(error => {
-          util.log(console.error, `Failed to fetch "${calendar.name}" calendar! Message: ${error}`);
+          util.log(console.error, `Failed to fetch "${name}" calendar! Message: ${error}`);
 
           return null;
         });

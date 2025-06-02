@@ -4,6 +4,7 @@ import { SPECIAL_DAYS, VALID_DAYS, NO_SCHOOL } from "../regex";
 export type Calendar<T> = {
   name: string,
   calendarId: string,
+  exclude: (event: T) => boolean,
   weightingFunction: (event: T) => number, // the smaller the better
 };
 
@@ -15,7 +16,8 @@ export const Calendars = defineCalendars([
   {
     name: "schedule",
     calendarId: "sulsp2f8e4npqtmdp469o8tmro@group.calendar.google.com",
-    weightingFunction: (event) => 0
+    exclude: () => false,
+    weightingFunction: event => 0
       + 100 * event.start.getTime()
       - (event.summary.match(VALID_DAYS)?.length ? 10 : 0)
       - (event.summary.match(SPECIAL_DAYS)?.length ?? 0),
@@ -23,8 +25,8 @@ export const Calendars = defineCalendars([
   {
     name: "lunchMenu",
     calendarId: "holliston.k12.ma.us_c2d4uic3gbsg7r9vv9qo8a949g@group.calendar.google.com",
-    weightingFunction: (event) => 0
-      + event.start.getTime()
-      + (event.summary.match(NO_SCHOOL)?.length ? Infinity : 0),
+    exclude: event => !!event.summary.match(NO_SCHOOL)?.length,
+    weightingFunction: event => 0
+      + event.start.getTime(),
   },
 ] as const);

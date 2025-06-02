@@ -5,8 +5,5 @@ import { Calendars } from "./definitions";
 export type ContextType = Promise<ical.VEvent | null>;
 
 export const Contexts = new Map(Calendars.map(
-  calendar => [
-    calendar.name,
-    createContext<ContextType>(new Promise(() => {})),
-  ]
+  ({ name }) => [ name, createContext<ContextType>(new Promise(() => {})) ]
 ));

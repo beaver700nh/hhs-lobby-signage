@@ -1,6 +1,9 @@
 // import { test_calculateRelativeDate } from "./util_test";
 // test_calculateRelativeDate();
 
+// const DEBUG_OVERRIDE_TIME = new Date("2024-09-30T15:00:00.000");
+const DEBUG_OVERRIDE_TIME = null;
+
 export function log(method: (this: Console, ...args: string[]) => any, ...args: string[]) {
   method.call(console, "::", ...args);
 }
@@ -41,7 +44,7 @@ export function isSameWeek(t1: Date, t2: Date) {
 
 export function calculateRelativeDate(date: Date, _now?: Date) {
   // disregard time info and only consider date
-  const now = toMidnight(_now ?? new Date("2024-10-02T12:00:00.000Z"));
+  const now = toMidnight(DEBUG_OVERRIDE_TIME ?? _now ?? new Date());
   const then = toMidnight(date);
 
   const diff = msToDay(then.getTime() - now.getTime());

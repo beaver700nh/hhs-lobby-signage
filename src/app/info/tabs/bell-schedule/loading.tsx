@@ -7,10 +7,10 @@ export default function BellScheduleLoading() {
     <table className="w-full table-fixed">
       <tbody>
         {Array.from({ length: 8 }, (_, i) => (
-          <tr key={i}  className={`${styles.bellScheduleEntry}`}>
+          <tr key={i} className={`${styles.bellScheduleEntry}`}>
             {Array.from({ length: 2 }, (_, j) => (
               <td key={j}>
-                <Skeleton className="inline-block!" variant="rounded" width="67%">
+                <Skeleton className="inline-block!" variant="rounded" width="75%">
                   <Typography>&zwsp;</Typography>
                 </Skeleton>
               </td>

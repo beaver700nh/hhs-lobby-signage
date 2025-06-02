@@ -76,3 +76,13 @@ export const BELL_SCHEDULE = (() => {
  * If the class contains "Nth lunch" of some sort, it's probably a lunch block.
  */
 export const LUNCH_BLOCK = /(?:\d\s*\w{0,2}|first|second|third|last)\W*lunch/i;
+
+/**
+ * The summary of the lunch menu is comprised of the main dish / "special" and a vegetarian indicator.
+ */
+export const LUNCH_SUMMARY = /^\s*(\(V\))?\s*(.*)$/;
+
+/**
+ * The description of the lunch menu lists the sides but the separator is inconsistent.
+ */
+export const LUNCH_SIDES_SEPARATOR = /\n|,\s*/;

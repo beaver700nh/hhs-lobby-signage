@@ -9,7 +9,7 @@ const lato = Lato({
 });
 
 const roboto = Roboto_Condensed({
-  weight: ["400"],
+  weight: ["400", "700"],
   subsets: ["latin"],
 });
 
@@ -28,7 +28,11 @@ const theme = createTheme({
     MuiTypography: {
       styleOverrides: {
         body1: {
-          fontSize: "1.5em",
+          fontSize: "1.75em",
+          fontFamily: roboto.style.fontFamily,
+        },
+        body2: {
+          fontSize: "1.25em",
           fontFamily: roboto.style.fontFamily,
         },
       },
