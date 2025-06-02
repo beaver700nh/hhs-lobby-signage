@@ -14,6 +14,11 @@ export const VALID_DAYS = /^\s*(?:[Ee]xams?|[Tt]ransition)?.*?([ABCD])(?:\W|$)/;
 export const SPECIAL_DAYS = /\*|special|exam|transition|last|half|1\/2/gi;
 
 /**
+ * The lunch schedule has entries for when there's no school, but it just says "No School" - this is not useful so we filter it out.
+ */
+export const NO_SCHOOL = /no\s*school|holiday/i;
+
+/**
  * Rudimentary detector for HTML in calendar event description (e.g. if it was copy-pasted from somewhere).
  * See https://regex101.com/r/WUMMda/1
  */

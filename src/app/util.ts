@@ -41,7 +41,7 @@ export function isSameWeek(t1: Date, t2: Date) {
 
 export function calculateRelativeDate(date: Date, _now?: Date) {
   // disregard time info and only consider date
-  const now = toMidnight(_now ?? new Date());
+  const now = toMidnight(_now ?? new Date("2024-10-02T12:00:00.000Z"));
   const then = toMidnight(date);
 
   const diff = msToDay(then.getTime() - now.getTime());

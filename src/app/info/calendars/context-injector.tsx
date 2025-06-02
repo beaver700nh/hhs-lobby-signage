@@ -8,7 +8,7 @@ import * as util from "@/app/util";
 
 const REFRESH_INTERVAL = util.minToMs(1/12);
 
-const DEBUG_OVERRIDE_TIME = new Date("2024-09-27T16:00:00.000");
+const DEBUG_OVERRIDE_TIME = new Date("2024-10-02T15:00:00.000");
 // const DEBUG_OVERRIDE_TIME = null;
 
 export default function ContextInjector({
