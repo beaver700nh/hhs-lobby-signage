@@ -35,6 +35,11 @@ const theme = createTheme({
         },
       },
     },
+    MuiPaper: {
+      defaultProps: {
+        elevation: 24,
+      },
+    },
   },
 });
 

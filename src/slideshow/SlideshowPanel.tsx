@@ -19,7 +19,7 @@ export default function SlideshowPanel() {
   }, []);
 
   return (
-    <Paper className="panel" elevation={24}>
+    <Paper className="panel">
       <iframe key={refreshKey} allowFullScreen={true} src={SLIDESHOW_EMBED} sandbox="allow-scripts" />
     </Paper>
   );
